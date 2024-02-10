@@ -2,7 +2,7 @@ import textwrap
 
 
 def menu() -> str:
-    display = """\n
+    display: str = """\n
     =============== MENU ===============
     [d]\tDepositar
     [s]\tSacar
@@ -26,12 +26,11 @@ def depositar(saldo_d: float, valor_d: float, extrato_d: str, /) -> tuple:
     return saldo_d, extrato_d
 
 
-def sacar(*, saldo_s: float, valor_s: float, extrato_s: float, limite_s: float,
+def sacar(*, saldo_s: float, valor_s: float, extrato_s: str, limite_s: float,
           numero_saques_s: int, limite_saque_s: int) -> tuple:
-
-    excedeu_saldo = valor_s > saldo_s
-    excedeu_limite = valor_s > limite_s
-    excedeu_saques = numero_saques_s >= limite_saque_s
+    excedeu_saldo: bool = valor_s > saldo_s
+    excedeu_limite: bool = valor_s > limite_s
+    excedeu_saques: bool = numero_saques_s >= limite_saque_s
 
     if excedeu_saldo:
         print("Operação falhou! Você não tem saldo suficiente.")
@@ -54,7 +53,7 @@ def sacar(*, saldo_s: float, valor_s: float, extrato_s: float, limite_s: float,
     return saldo_s, extrato_s, numero_saques_s
 
 
-def exibir_extrato(saldo_e: float, /, *, extrato_e: float) -> None:
+def exibir_extrato(saldo_e: float, /, *, extrato_e: str) -> None:
     print("\n================ EXTRATO ================")
     print("Não foram realizadas movimentações." if not extrato_e else extrato_e)
     print(f"\nSaldo: R$ {saldo_e:.2f}")
@@ -62,8 +61,8 @@ def exibir_extrato(saldo_e: float, /, *, extrato_e: float) -> None:
 
 
 def criar_usuario(usuarios: list) -> None:
-    cpf = input("Informe o CPF (Somente número): ")
-    usuario = filtrar_usuario(cpf, usuarios)
+    cpf: str = input("Informe o CPF (Somente número): ")
+    usuario: list = filtrar_usuario(cpf, usuarios)
 
     if usuario:
         print("\n@@@ Já existe usu;ario com esse CPF! @@@")
@@ -81,13 +80,13 @@ def criar_usuario(usuarios: list) -> None:
 
 
 def filtrar_usuario(cpf: str, usuarios: list) -> list:
-    usuarios_filtrados = [usuario for usuario in usuarios if usuario["cpf"] == cpf]
+    usuarios_filtrados: list = [usuario for usuario in usuarios if usuario["cpf"] == cpf]
     return usuarios_filtrados[0] if usuarios_filtrados else None
 
 
 def criar_conta(agencia: str, numero_conta: int, usuarios: list) -> dict:
-    cpf = input("Informe o CPF do usuário: ")
-    usuario = filtrar_usuario(cpf, usuarios)
+    cpf: str = input("Informe o CPF do usuário: ")
+    usuario: list = filtrar_usuario(cpf, usuarios)
 
     if usuario:
         print("\n=== Conta criada com sucesso! ===")
@@ -113,15 +112,15 @@ def listar_contas(contas):
 
 
 def main() -> None:
-    LIMITE_SAQUES = 3
-    AGENCIA = "0001"
+    LIMITE_SAQUES: int = 3
+    AGENCIA: str = "0001"
 
-    saldo = 0
-    limite = 500
-    extrato = ""
-    numero_saques = 0
-    usuarios = []
-    contas = []
+    saldo: float = 0
+    limite: float = 500
+    extrato: str = ""
+    numero_saques: int = 0
+    usuarios: list = []
+    contas: list = []
 
     while True:
         opcao = menu()
@@ -153,10 +152,10 @@ def main() -> None:
 
             if conta:
                 contas.append(conta)
-        
+
         elif opcao == "lc":
             listar_contas(contas)
-        
+
         elif opcao == "q":
             break
 
@@ -166,4 +165,4 @@ def main() -> None:
 
 if __name__ == '__main__':
     main()
-    
+
